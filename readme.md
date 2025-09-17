@@ -9,3 +9,12 @@ SungKyul Uni. MediaSoftware Student 2022XXXX Kim DXXXXXXX.
 -new spirng boot setup, main boot set up, resource/templates/index.html
 
 -URI, URL, DispatcherServlet(Front Controller), add DemoController
+
+## **2. Wev trand, Making own Portfolio**
+
+-JAVA vs C#, what is spring boot stack
+
+-using portfolio templets to make own portfolio
+
+-some edit and make 'about detailed' herf
+
