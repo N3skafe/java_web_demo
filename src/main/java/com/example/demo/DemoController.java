@@ -12,11 +12,15 @@ public class DemoController {
     @GetMapping("/hello1234")
     public String hello(Model model) {
         model.addAttribute("data", "hello!!");
-        return "hello";
+        return "hello1234";
     }
     @GetMapping("/about_detailed")
     public String about() {
         return "about_detailed";
+    }
+    @GetMapping("/index")
+    public String index() {
+        return "index";
     }
     
 }
