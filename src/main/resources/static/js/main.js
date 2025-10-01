@@ -124,3 +124,11 @@
     
 })(jQuery);
 
+// function warrning(){
+//     alert("창을 닫으시겠습니까?");
+//     if(confirm("창을 닫으시겠습니까?") == true) {
+//         window.close();
+//     } else {
+//         return false;
+//     }
+// }

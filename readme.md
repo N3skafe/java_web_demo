@@ -19,3 +19,15 @@ SungKyul Uni. MediaSoftware Student 2022XXXX Kim DXXXXXXX.
 -using portfolio templets to make own portfolio
 
 -some modify (edit) and make 'about detailed' herf
+
+## **3. Data Base (W4)**
+
+-Add Database, table, and something...
+
+-Add table(ID, NAME)
+
+## **4. Wev trand, Making own Portfolio (W5)**
+
+-Make Blog Page
+
+-Article page and database
