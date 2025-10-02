@@ -3,16 +3,24 @@ package com.example.demo.controller;
 import java.util.List; // List import 추가 java 자료구조
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.model.domain.Article;
+import com.example.demo.model.service.AddArticleRequest;
 import com.example.demo.model.service.BlogService; // 최상단 서비스 클래스 연동 추가(BlogService)
 
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 
+@RequiredArgsConstructor
 @Controller
 public class BlogController {
     @Autowired
@@ -28,4 +36,15 @@ public class BlogController {
         model.addAttribute("articles", list); // 모델에 추가
     return "article_list"; // .HTML 연결
     }
+    @PostMapping("/api/articles") // post 요청
+    public String addArticle(@ModelAttribute AddArticleRequest request) { // 아직없음(에러)
+        Article saveArticle= blogService.save(request); // 게시글저장
+        ResponseEntity.status(HttpStatus.CREATED).body(saveArticle); // 상태코드및게시글정보반환
+        return "redirect:/article_list"; 
+    }
+    @GetMapping("/favicon.ico")
+        public void favicon() {
+        // 아무 작업도 하지 않음
+    }
+
 }
