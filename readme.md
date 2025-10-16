@@ -12,7 +12,7 @@ SungKyul Uni. MediaSoftware Student 2022XXXX Kim DXXXXXXX.
 
 -edit controller, URL mapping (index-hello1-hello2)
 
-## **2. Wev trand, Making own Portfolio (W3)**
+## **2. Web trand, Making own Portfolio (W3)**
 
 -JAVA vs C#, what is spring boot stack
 
@@ -26,8 +26,12 @@ SungKyul Uni. MediaSoftware Student 2022XXXX Kim DXXXXXXX.
 
 -Add table(ID, NAME)
 
-## **4. Wev trand, Making own Portfolio (W5)**
+## **4. Blog, Article and connect with database(W5)**
 
 -Make Blog Page
 
 -Article page and database
+
+## **5. What is ORM?, ORM mapping and enriry manager(W6)**
+
+-Article edit and delete

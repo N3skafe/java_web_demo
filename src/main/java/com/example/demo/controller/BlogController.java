@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RequiredArgsConstructor
+
 @Controller
 public class BlogController {
     @Autowired

@@ -18,6 +18,7 @@ public class BlogService {
     public List<Article> findAll() { // 게시판전체목록조회 Article List
         return blogRepository.findAll();
     }
+
     public Article save(AddArticleRequest request){
         // DTO가없는경우이곳에직접구현가능
         // public ResponseEntity<Article> addArticle(@RequestParam String title, @RequestParam String content) {
@@ -39,7 +40,7 @@ public class BlogService {
             blogRepository.save(article); // Article 객체에저장
         });
     }
-    
+
     public void delete(Long id) {
         blogRepository.deleteById(id);
     }
