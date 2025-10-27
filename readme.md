@@ -131,7 +131,7 @@ System.out.println("데이터 출력 디버그 : " + test3);
 ```
 
 • MySQL 테이블 예시
-![사용자 추가](/demo/src/main/resources/static/img/fstdb.png)
+![사용자 추가](/src/main/resources/static/img/fstdb.png)
 
 ### **5주차: 페이지 리다이렉트 (完了)**
 
@@ -168,4 +168,4 @@ public class BlogErrorHandler {
 • 'templates'폴더에 추가로 'error_page'생성 (에러 페이지만 관리하기 위함)
 
 • 에러 페이지 동작 예시
-![에러 페이지 동작 예시](/demo/src/main/resources/static/img/error1.png)
+![에러 페이지 동작 예시](/src/main/resources/static/img/error1.png)
