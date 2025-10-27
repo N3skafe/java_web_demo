@@ -88,7 +88,7 @@ function confirmClose() {
 
 • 동작 확인
 
-![confirmClose()](/demo/src/main/resources/static/img/yesorno.png "confirmClose()")
+![confirmClose()](/src/main/resources/static/img/yesorno.png "confirmClose()")
 
 ### **4주차: 사용자 추가 및 출력하기 (完了)**
 
