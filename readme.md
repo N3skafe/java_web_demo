@@ -65,7 +65,7 @@
 • 수업중 제작한 'hello.html'를 이용하여 'hello2.html'생성 및 'DemoController.java'에 url 맵핑
 
 *DemoController.java에 맵핑 추가*
-```
+```JAVA
 @GetMapping("/hello2")
 public String hello2() {
     return "hello2";
@@ -78,7 +78,7 @@ public String hello2() {
 • 'about_detailed.html'의 되돌아가기 버튼을 누르면 창을 닫을지 물어보고, Y/N를 통해서 동작할 수 있도록 한다.
 
 • 먼저 'main.js'를 수정한다
-```
+```JAVASCRIPT
 function confirmClose() {
     const closecall = window.confirm("되돌아가시겠습니까?");
     if (closecall) {
@@ -88,7 +88,7 @@ function confirmClose() {
 ```
 
 • 다음 'about_detailed.html'의 되돌아가기 버튼 부분을 수정한다
-```
+```HTML
 <div class="col-lg-6 text-lg-end">
     <a class="btn btn-primary py-3 px-5" onclick="confirmClose()" href="/index">되돌아가기</a>
 </div>
@@ -106,7 +106,7 @@ function confirmClose() {
 • 컨트롤러에 사용자 2, 3을 추가한다
 
 *DemoController.java*
-```
+```JAVA
 @GetMapping("/testdb")
 public String getAllTestDBs(Model model) {
 TestDB test = testService.findByName("홍길동");
@@ -127,7 +127,7 @@ System.out.println("데이터 출력 디버그 : " + test3);
 • 뷰를 수정한다.
 
 *testdb.html*
-```
+```HTML
 <body>
     <h1>User List</h1>
     <p>아이디(기본키) : <span th:text="${data4.id}"></span></p>
@@ -150,7 +150,7 @@ System.out.println("데이터 출력 디버그 : " + test3);
 • 기존 @BlogRestController방식을 BlogController 방식으로 수정
 
 • BlogController.java에 맵핑 추가 (리턴 타입: String)
-```
+```JAVA
 @PostMapping("/api/articles")
 public String addArticle(@ModelAttribute AddArticleRequest request) {
     Article saveArticle= blogService.save(request);
@@ -165,7 +165,7 @@ public String addArticle(@ModelAttribute AddArticleRequest request) {
 • 수업중 진행했던 'article_error.html'을 재사용하여 'add_error.html'생성
 
 • 'BlogErrorHandler.java' 생성
-```
+```JAVA
 @ControllerAdvice
 public class BlogErrorHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, IllegalArgumentException.class})
