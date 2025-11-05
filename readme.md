@@ -1,4 +1,4 @@
-# **성결대학교 미디어소프트웨어 학과 자바웹프로그래밍(2)**
+# **성결대학교 미디어소프트웨어학과 자바웹프로그래밍(2)**
 
 - 성결대학교 미디어소프트웨어 20220970 김동준
 
@@ -38,7 +38,7 @@
 • 컨트롤러에 'favicon.ico' 에러 방지  
 
 ---
-### **5. ORM이란?, ORM 매핑과 엔티티 매니저 (6주차)**
+### **5. ORM이란?, ORM 매핑과 엔티티 매니저 (7주차)**
 
 • 게시글 수정과 삭제 기능 구현  
 • 게시글 목록 아래 수정, 삭제 버튼 추가  
@@ -48,15 +48,26 @@
 • 게시판 수정화면으로 직접 이동시에 에러 페이지 발생 (예외처리)  
 
 ---
-### **6. 중간고사 공지 (7주차)**
+### **6. 중간고사 공지 (8주차)**
 
 • 중간고사 공지 및 중간점검  
 • 깃허브 메일 제출  
 
 ---
-### **7. 중간고사 당일 (8주차)**
+### **7. 중간고사 당일 (9주차)**
 
 • 중간고사  
+
+---
+### **8. 프로필, 게시판 수정하기 (10주차)**
+
+• 프로필 '나의 프로젝트'란 수정  
+• 한글화 및 사진 변경  
+• 게시판 프론트 디자인 수정  
+• 게시판 페이지 분리  
+• 새 게시판 DB 및 필드 추가 (user, newdate, count, likec)  
+• 게시판 내용 확인 하이퍼링크 추가  
+• 게시글 수정, 삭제 버튼 추가
 
 ---
 ## 연습 문제 (모든 문제 풀이 완료)
@@ -160,7 +171,7 @@ public String addArticle(@ModelAttribute AddArticleRequest request) {
 ```
 
 ---
-### **6주차: 예외처리 (完了)**
+### **7주차: 예외처리 (完了)**
 
 • 수업중 진행했던 'article_error.html'을 재사용하여 'add_error.html'생성
 
@@ -180,6 +191,44 @@ public class BlogErrorHandler {
 
 • 에러 페이지 동작 예시
 ![에러 페이지 동작 예시](/src/main/resources/static/img/error1.png)
+
+---
+### **10주차:  새로운 게시판 페이지 만들기(完了)**
+
+• 수업중 진행했던 'article_edit.html'을 재사용하여 'board_edit.html'생성  
+• 글수정 및 삭제 버튼 동작을 위한 맵핑 등록 (BlogController.java)  
+• 'AddArticleRequest.java'수정  
+```JAVA
+public Board toEntity(){
+    return Board.builder()
+        .title(title)
+        .content(content)
+        .user(user)
+        .newdate(newdate)
+        .count(count)
+        .likec(likec)
+        .build();
+    }
+```
+
+• 'BlogService.java'수정(글 수정)  
+```JAVA
+public void update(Long id, AddArticleRequest request) {
+    Optional<Board> optionalBoard = blogRepository2.findById(id); 
+        optionalBoard.ifPresent(board -> { 
+        board.update(request.getTitle(), request.getContent(), board.getUser(), board.getNewdate(), board.getCount(), board.getLikec()); 
+        blogRepository2.save(board); 
+    });
+}
+```
+
+• 'BlogService.java'수정(글 삭제)  
+```JAVA
+public void delete(Long id) {
+    blogRepository2.deleteById(id);
+}
+```
+
 
 ## **수업 내용 정리**
 ### **1. 백엔드 프로그래밍, 스프링 프레임워크 (2주차)**
@@ -225,7 +274,7 @@ public String getAllTestDBs(Model model) {
 
 
 ---
-### **5. ORM이란?, ORM 매핑과 엔티티 매니저 (6주차)**
+### **5. ORM이란?, ORM 매핑과 엔티티 매니저 (7주차)**
 
 - ORM 개념 및 구현체(Hibernate, JPA)
 - Entity 클래스와 Repository 사용법
@@ -252,10 +301,10 @@ public class BlogErrorHandler {
 
 
 ---
-### **6. 중간고사 공지 (7주차)**
+### **6. 중간고사 공지 (8주차)**
 
-• 중간고사 공지 및 중간점검  
-• 깃허브 메일 제출  
+- 중간고사 공지 및 중간점검  
+- 깃허브 메일 제출  
 
 ---
 
@@ -311,4 +360,14 @@ public class BlogErrorHandler {
 
 
 ---
-### **7. 중간고사 당일 (8주차)**
+### **7. 중간고사 당일 (9주차)**
+
+---
+### **8. 프로필, 게시판 수정하기 (10주차)**
+
+- JPA Repository  
+- 게시판(Board) 및 게시글(Article) 관리를 위해 JPA 기반 Repository 사용  
+- 주요 메소드: CRUD, findAll, findById  
+- Service 계층을 통해 Repository와 Controller 연동  
+
+---
