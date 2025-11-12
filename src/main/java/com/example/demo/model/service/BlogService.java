@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 //import com.example.demo.model.domain.Article;
 import com.example.demo.model.domain.Board;
@@ -67,4 +69,16 @@ public class BlogService {
     public void delete(Long id) {
         blogRepository2.deleteById(id);
     }
+
+    public Board save(AddArticleRequest request) {
+        return blogRepository2.save(request.toEntity());
+    }
+
+    public Page<Board> findAll(Pageable pageable) {
+        return blogRepository2.findAll(pageable);
+    }
+
+     public Page<Board> searchByKeyword(String keyword, Pageable pageable) {
+        return blogRepository2.findByTitleContainingIgnoreCase(keyword, pageable);
+        } // LIKE 검색 제공(대소문자 무시)
 }
