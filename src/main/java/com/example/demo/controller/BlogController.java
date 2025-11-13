@@ -88,10 +88,11 @@ public class BlogController {
     //     return "redirect:/article_list";
     // }
     @GetMapping("/board_view/{id}") // 게시판 링크 지정
-    public String board_view(Model model, @PathVariable Long id) {
+    public String board_view(Model model, @PathVariable Long id ) { // , @RequestParam int orderNumber 삭제 오류남
         Optional<Board> list = blogService.findById(id); // 선택한 게시판 글
         if (list.isPresent()) {
             model.addAttribute("boards", list.get()); // 존재할 경우 실제 Board 객체를 모델에 추가
+            //model.addAttribute("orderNumber", orderNumber); // 시작 번호 계산 및 모델에 추가
         } else {
             // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
             return "/error_page/article_error"; // 오류 처리 페이지로 연결
@@ -139,6 +140,8 @@ public class BlogController {
         else {
             list = blogService.searchByKeyword(keyword, pageable); // 키워드로 검색
         }
+        int startNumber = (page * 5) + 1; // 페이지 시작 번호 계산
+        model.addAttribute("startNumber", startNumber); // 모델에 추가
         model.addAttribute("boards", list); // 모델에 추가
         model.addAttribute("totalPages", list.getTotalPages()); // 페이지 크기
         model.addAttribute("currentPage", page); // 페이지 번호

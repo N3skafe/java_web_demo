@@ -13,6 +13,8 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 1씩 증가
     @Column(name = "id", updatable = false) // 수정 x
     private Long id;
+    @Column(name = "startNumber", nullable = false) // null x
+    private int startNumber = 0;
     @Column(name = "title", nullable = false) // null x
     private String title = "";
     @Column(name = "content", nullable = false)
@@ -27,7 +29,8 @@ public class Board {
     private String likec = "";
     
     @Builder // 생성자에 빌더 패턴 적용(불변성)
-    public Board(String title, String content, String user, String newdate, String count, String likec){
+    public Board(int startNumber, String title, String content, String user, String newdate, String count, String likec){
+        this.startNumber = startNumber;
         this.title = title;
         this.content = content;
         this.user = user;
@@ -35,7 +38,8 @@ public class Board {
         this.count = count;
         this.likec = likec;
     }
-    public void update(String title, String content, String user, String newdate, String count, String likec) { // 현재 객체 상태 업데이트
+    public void update(int startNumber, String title, String content, String user, String newdate, String count, String likec) { // 현재 객체 상태 업데이트
+        this.startNumber = startNumber;
         this.title = title;
         this.content = content;
         this.user = user;

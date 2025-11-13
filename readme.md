@@ -67,7 +67,17 @@
 • 게시판 페이지 분리  
 • 새 게시판 DB 및 필드 추가 (user, newdate, count, likec)  
 • 게시판 내용 확인 하이퍼링크 추가  
-• 게시글 수정, 삭제 버튼 추가
+• 게시글 수정, 삭제 버튼 추가  
+
+---
+### **9. 검색창과 페이징 (11주차)**
+
+• 'board_write'를 통해서 새로운 페이지 에서 글쓰기 기능 추가  
+• 'board_list' 메인화면 상단에 검색창과 검색 기능 추가  
+• 페이징 퍼리를 위한 서비스 계층의 코드를 수정  
+• Jpa 연동  
+• 한 화면에 뜨는 게시글 제한  
+• 네비바 형태로 페이징 기능 추가
 
 ---
 ## 연습 문제 (모든 문제 풀이 완료)
@@ -229,7 +239,59 @@ public void delete(Long id) {
 }
 ```
 
+---
+### **11주차:  게시판 페이지 글 번호 & 삭제(完了)**
 
+• 데이터베이스의 id 값 대신 순서 출력 구현  
+• 'BlogController.java'수정  
+```JAVA
+int startNumber = (page * 5) + 1;
+model.addAttribute("startNumber", startNumber);
+```
+• 'Board.java' 수정
+```JAVA
+@Column(name = "startNumber", nullable = false)
+private int startNumber = 0;
+```
+```JAVA
+@Builder
+public Board(int startNumber, String title, ~~~){
+this.startNumber = startNumber;
+~~~
+}
+```
+```JAVA
+public void update(int startNumber, ~~~) {
+this.startNumber = startNumber;
+~~~
+}
+```
+• 'BlogService.java'수정
+```JAVA
+board.update(board.getStartNumber() ,request.getTitle(), request.getContent(), board.getUser(), board.getNewdate(), board.getCount(), board.getLikec());
+```
+• 'board_list.html 수정
+```HTML
+<tr th:each="board, stat : ${boards}">
+    <td th:text ="${startNumber + stat.index}"></td>
+    <td>
+        <a th:href="@{/board_view/{id}(id=${board.id})}">
+            <span th:text="${board.title}"></span>
+        </a>
+    </td>
+```
+
+• 게시판 페이지 삭제
+• 'BlogController.java' 수정
+```JAVA
+@DeleteMapping("/api/board_delete/{id}")
+public String deleteBoard(@PathVariable Long id) {
+    blogService.delete(id);
+    return "redirect:/board_list";
+}
+```
+
+---
 ## **수업 내용 정리**
 ### **1. 백엔드 프로그래밍, 스프링 프레임워크 (2주차)**
 
@@ -371,3 +433,21 @@ public class BlogErrorHandler {
 - Service 계층을 통해 Repository와 Controller 연동  
 
 ---
+### **9.  게시판 검색과 페이징 (11주차)**
+
+- 대용량 데이터 처리에서 검색 및 페이징은 필수 기능  
+- 전통적 DB 쿼리 방식과 Elasticsearch 같은 검색엔진 비교  
+- 스프링 부트 환경에서 JPA 및 페이징 처리
+
+---
+
+ **성능비교**
+
+| 분류              | 속도           | 특징                          |
+|-----------------|--------------|-----------------------------|
+| HW (CPU)       | 빠름           | 1,000~10,000배 차이 가능         |
+| SW (검색엔진)    | Elasticsearch, Solr | 대규모 데이터 최적화 처리                  |
+| 캐시 솔루션       | Ehcache, Redis | 메모리 기반 빠른 접근                    |
+
+---
+
