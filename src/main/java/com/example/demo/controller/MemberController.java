@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,28 +7,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.model.domain.Member;
 import com.example.demo.model.service.AddMemberRequest;
 import com.example.demo.model.service.MemberService;
 
+import jakarta.validation.Valid; //@Valid추가
+import lombok.RequiredArgsConstructor;
 
-import com.example.demo.model.domain.Member;
 
-
-
+@RequiredArgsConstructor
 
 @Controller
-
 public class MemberController {
     @Autowired
-    MemberService memberService;
+    MemberService memberService; // MemberService 클래스 아래 객체 생성
 
     @GetMapping("/join_new") // 회원 가입 페이지 연결
     public String join_new() {
         return "join_new"; // .HTML 연결
     }
     @PostMapping("/api/members") // 회원 가입 저장
-    public String addmembers(@ModelAttribute AddMemberRequest request) {
-    memberService.saveMember(request);
+    public String addmembers(@Valid @ModelAttribute AddMemberRequest request) {
+        memberService.saveMember(request);
         return "join_end"; // .HTML 연결
     }
     @GetMapping("/member_login") // 로그인 페이지 연결
