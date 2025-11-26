@@ -30,7 +30,7 @@ public class AddMemberRequest {
              message = "비밀번호는 8~20자이며, 영문자, 숫자, 특수문자를 포함해야 합니다.")
     private String password;
 
-    @Pattern(regexp = "19~90", message = "나이는 19세에서 90세 사이여야 합니다.")
+    @Pattern(regexp = "^(19|[2-8][0-9]|90)$", message = "나이는 19세에서 90세 사이여야 합니다.") //어렵다 어려워. 오류가 넘처나는 나이 확인
     private String age;
 
     @NotEmpty(message = "휴대폰 번호를 입력하십시오")
