@@ -34,7 +34,7 @@ public class MemberService{
         request.setPassword(encodedPassword); // 암호화된 비밀번호 설정
             return memberRepository.save(request.toEntity());
     }
-    public Member loginCheck(String email, String rawPassword) {
+    public Member loginCheck(String email, String rawPassword, String name) {
         Member member = memberRepository.findByEmail(email); // 이메일 조회
         if (member == null) {
             throw new IllegalArgumentException("등록되지 않은 이메일입니다.");

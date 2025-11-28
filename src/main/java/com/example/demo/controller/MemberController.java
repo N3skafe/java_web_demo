@@ -54,11 +54,13 @@ public class MemberController {
             }
             session = request2.getSession(true); // 새로운 세션 생성
 
-            Member member = memberService.loginCheck(request.getEmail(), request.getPassword()); // 패스워드 반환
+            Member member = memberService.loginCheck(request.getEmail(), request.getPassword(), request.getName()); // 패스워드 반환
             String sessionId=UUID.randomUUID().toString(); // 임의의 고유 ID로 세션 생성
             String email = request.getEmail(); // 이메일 얻기
+            String name = request.getName(); // 이름 얻기
             session.setAttribute("userId", sessionId);
             session.setAttribute("email", email); // 이메일 설정
+            session.setAttribute("name", name); // 이름 설정
 
 
             model.addAttribute("member", member); // 로그인 성공 시 회원 정보 전달
