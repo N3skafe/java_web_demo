@@ -177,4 +177,8 @@ public class BlogController {
         model.addAttribute("keyword", keyword); // 키워드
         return "board_list"; // .HTML 연결
     }
+    @GetMapping("/session-expired")
+    public String session_expried() {
+    return "session_expired"; // .html 파일 연동
+    }
 }
