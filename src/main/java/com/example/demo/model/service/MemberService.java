@@ -22,13 +22,13 @@ public class MemberService{
     @Autowired
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder; // 스프링버전5 이후, 단방향해싱알고리즘지원
-    private void validateDuplicateMember(@Valid AddMemberRequest request){
+    private void validateDuplicateMember(AddMemberRequest request){
         Member findMember= memberRepository.findByEmail(request.getEmail()); // 이메일존재유무
         if(findMember!= null){
             throw new IllegalStateException("이미가입된회원입니다."); // 예외처리
         }
     }
-    public Member saveMember(AddMemberRequest request){
+    public Member saveMember(@Valid AddMemberRequest request){
         validateDuplicateMember(request); // 이메일 체크
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         request.setPassword(encodedPassword); // 암호화된 비밀번호 설정

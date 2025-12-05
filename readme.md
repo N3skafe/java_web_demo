@@ -80,6 +80,75 @@
 • 네비바 형태로 페이징 기능 추가
 
 ---
+### **10. 로그인과 로그아웃_1 (12주차)**
+
+• 'SecurityConfig'를 통해서 보안 설정을 등록  
+• 'domain'-'Member' 생성하여 회원 저장 테이블 구성  
+• Blog와 구분하기 위한 새로운 'MemberController.java' 생성  
+• 프론트 생성 'join_new.html'  
+• 리포지토리, 서비스 DTO 구성  
+• 회원가입 완료후 'join_end.html'를 통한 완료 프론트, 리다이렉트  
+• 로그인 프론트 및 컨트롤러 맵핑 Get, Post 요청  
+
+---
+### **11. 로그인과 로그아웃_2 (13주차)**
+
+• 프로젝트 팀원 사진 및 정보 수정  
+• 추천인/전문가 후기 수정  
+• 'BlogController.java'수정, 로그인 X -> 게시판 접근 X  
+• 로그인시 세션 ID를 생성  
+• 로그인 후 게시판에 사용자 환영합니다 출력  
+• 세션 존재시 초기화를 통해서 단일 사용자만 로그인 할 수 있도록 함  
+• 로그아웃 버튼 구현 'MemberController.java' 수정  
+• 'SecurityConfig.java' 수정을 통한 보안기능 추가 (xss, csrf, 세션 제한 등)  
+• 'application.properties' 수정을 통한 세션 만료 기능 추가  
+• 'session-expired'가 되면 화이트라벨 오류 발생!  
+
+*session_expired.html 생성 (join_end.html 재활용)*
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>session expired</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container text-center mt-5">
+            <h1 class="mb-4 text-success">세션 만료</h1>
+            <a href="/">홈으로돌아가기</a>
+        </div>
+    </body>
+</html>
+```
+*BlogController.java에 맵핑*
+```java
+@GetMapping("/session-expired")
+public String session_expried() {
+    return "session_expired";
+}
+```
+![세션 만료시 되돌아가기](/src/main/resources/static/img/ssexp.png)  
+• '홈으로돌아가기'를 통해 본 페이지로 이동  
+
+---
+### **12. 포트폴리오 완성 (14주차)**
+
+• 'index.html'의 주소 및 연락처 부분 번역 및 수정  
+• 추가로 메일 업로드 기능으로 수정  
+• 'FileController.java'추가  
+• 'Securityconfig.java' 수정 -> CSRF 비활성화(여가서만 하는 조치로 보안에 매우 취약)  
+• 파일 업로드 저장소 및 완료 화면 추가  
+  
+*동작 확인*  
+![upload에 저장된 파일과 txt 내용](/src/main/resources/static/img/savetest.png)  
+
+• 지도 학교 위치로 설정하기(google map)  
+
+
+
+---
 ## 연습 문제 (모든 문제 풀이 완료)
 ### **2주차: URL 맵핑과 컨트롤러 추가하기 (完了)**
 
@@ -290,6 +359,137 @@ public String deleteBoard(@PathVariable Long id) {
     return "redirect:/board_list";
 }
 ```
+---
+### **12주차:  입력값 필터링(完了)**
+
+• pom.xml에 'Validation' 의존성 모듈 추가  
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+``` 
+---
+### 검증처리
+
+| 항목            | 제한                                             |
+|--------------------|-------------------------------------------------------|
+| `이름`      | 공백 X, 특수문자 X                         |
+| `이메일`  | 공백 X, 이메일 형식                     |
+| `패스워드`  | 패턴 O (8글자이상, 대소문자 포함)                     |
+| `나이`  | 패턴 O (19세 이상부터 90세 이하까지)                     |
+| `모바일`  | 공백 O                     |
+| `주소`  | 공백 O                     |
+---
+### 검증처리 어노테이션
+
+| 어노테이션            | 설명                                                                 |
+|-----------------------|----------------------------------------------------------------------|
+| `@Null`               | null만 허용한다.                                                    |
+| `@NotNull`            | 빈 문자열(`""`), 공백(`" "`)은 허용하되, null은 허용하지 않는다.     |
+| `@NotEmpty`           | 공백(`" "`)은 허용하되, null과 빈 문자열(`""`)은 허용하지 않는다.    |
+| `@NotBlank`           | null, 빈 문자열(`""`), 공백(`" "`) 모두 허용하지 않는다.            |
+| `@Email`              | 이메일 형식을 검사한다. 단, 빈 문자열(`""`)의 경우엔 통과 시킨다.   |
+| `@Pattern(regexp = )` | 정규식 검사를 할 때 사용한다.                                       |
+| `@Size(min=, max=)`   | 길이를 제한할 때 사용한다.                                          |
+| `@Max(value = )`      | value 이하의 값만 허용한다.                                          |
+| `@Min(value = )`      | value 이상의 값만 허용한다.                                          |
+
+---
+
+- 'AddMemberRequest.java' 검증처리
+```JAVA
+@NotBlank(message = "이름을 입력하십시오")
+@Size(min = 2, max = 50, message = "이름은 2자 이상 50자 이하여야 합니다.")
+private String name;
+
+@Email(message = "이메일 형식이 올바르지 않습니다.")
+@NotBlank(message = "이메일을 입력하십시오")
+private String email;
+
+@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,20}$",
+            message = "비밀번호는 8~20자이며, 영문자, 숫자, 특수문자를 포함해야 합니다.")
+private String password;
+
+@Pattern(regexp = "^(19|[2-8][0-9]|90)$", message = "나이는 19세에서 90세 사이여야 합니다.")
+private String age;
+
+@NotEmpty(message = "휴대폰 번호를 입력하십시오")
+private String mobile;
+
+@NotEmpty(message = "주소를 입력하십시오")
+private String address;
+```
+- 'MemberController.java' 수정
+```JAVA
+@PostMapping("/api/members")
+public String addmembers(@Valid @ModelAttribute AddMemberRequest request, BindingResult bindingResult, Model model) {
+    if (bindingResult.hasErrors()) {
+        model.addAttribute("addMemberRequest", request);
+        return "join_new";
+    }
+    memberService.saveMember(request);
+    return "join_end";
+}
+```
+- 'join_new.html'에서 'AddMemberRequest'를 찾을 수 있게 함  
+(이걸 안 해서 500에러가 발생, 약 2시간의 삽질을 경험할 수 있었음)
+```java
+    @GetMapping("/join_new")
+    public String join_new(Model model) {
+        model.addAttribute("addMemberRequest", new AddMemberRequest());
+        return "join_new";
+    }
+```
+- 'join_new.html'에 'addMemberRequrest' 추가
+```html
+<form th:action="@{/api/members}" th:object="${addMemberRequest}" method="post">
+```
+- 오류 작동 조건 및 설정
+```html
+<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></span>
+```
+- 동작 확인
+![비밀번호, 나이 오류](/src/main/resources/static/img/join_error_test.png)
+
+---
+### **13주차:  게시판 수정하기(完了)**
+- 게시글 추가(글 저장하기)에서 현재 로그인한 사용자로 글의 작성자를 저장한다
+*BlogController.java 수정*
+```java
+@PostMapping("/api/boards")
+public String addboards(@ModelAttribute AddArticleRequest request, HttpSession session) {
+    String email = (String) session.getAttribute("email"); // 세션에서 이름 확인
+    System.out.println("작성자: " + email); //터미널 확인용
+    request.setUser(email);
+    blogService.save(request);
+    return "redirect:/board_list";
+}
+```
+![기존 GUEST 아래 이메일로 저장된 모습](/src/main/resources/static/img/bidtest.png)
+
+
+- 게시글 내용 보기에서 글의 작성자만 수정/삭제 버튼을 보여준다  
+*BlogController.java' 수정*  
+```java
+@PutMapping("api/board_edit/{id}")
+public String updataBoard(@PathVariable Long id, @ModelAttribute AddArticleRequest request, HttpSession session) {
+    String email = (String) session.getAttribute("email"); // 세션에서 이름 확인
+    Optional<Board> list = blogService.findById(id);
+    Board board = list.get();
+    if (!board.getUser().equals(email)) {
+        return "redirect:/board_list?error=unauthorized";
+    }
+    blogService.update(id, request);
+    return "redirect:/board_list";
+}
+```
+- @DeleteMapping도 동일한 방법으로 진행한다  
+*qwer1234@qqq.com으로 로그인 되었을때 시연 사진*  
+
+![같은계정 글](/src/main/resources/static/img/qqqtest.png)  
+
+![다른계정 글](/src/main/resources/static/img/jintest.png)
 
 ---
 ## **수업 내용 정리**
@@ -450,4 +650,29 @@ public class BlogErrorHandler {
 | 캐시 솔루션       | Ehcache, Redis | 메모리 기반 빠른 접근                    |
 
 ---
+### **10. 로그인과 로그아웃_1 (12주차)**
 
+- 자바/스프링 기반 애플리케이션을 위한 보안 프레임워크  
+- 인증(Authentication)과 인가(Authorization)를 필터 체인으로 처리  
+- 아이디/비밀번호 기반 로그인, 권한(Role) 체크, 세션/쿠키 관리 등을 제공  
+- 스프링 MVC와 자연스럽게 연동되며, 설정만으로 기본 로그인/로그아웃 페이지 제공  
+- 보안 관심사(로그인, 접근제어)를 비즈니스 로직과 분리하여 관리 가능  
+
+---
+### **11. 로그인과 로그아웃_2 (13주차)**
+
+- 로그인 성공 시 HttpSession에 userId, email 등을 저장하고, 브라우저에는 JSESSIONID 쿠키가 발급  
+- 컨트롤러에서 session.getAttribute로 userId가 없으면 로그인 페이지로 리다이렉트하고, email 등을 꺼내 화면에 표시  
+- 로그아웃 시 session.invalidate()로 세션을 무효화하고, JSESSIONID 쿠키의 값을 null로 만들고 만료시켜 브라우저 쿠키도 삭제  
+- 보안 설정에서 세션 최대 동시 접속 수, 만료 URL, 세션 타임아웃, secure 쿠키 여부 등을 지정해 세션 보안을 강화   
+
+---
+### **12. 포트폴리오 완선 (14주차)**
+
+- Thymeleaf index.html에 Bootstrap 폼 추가: 이름/이메일/제목/메시지 입력.
+- FileController에서 MultipartFile 처리, upload 폴더에 이메일.txt로 저장 (BufferedWriter 사용).
+- SecurityConfig.http.csrf().ignoringAntMatchers("/upload-email")로 CSRF 비활성화, IOException 예외 처리.
+- RedirectAttributes로 성공/에러 플래시 메시지 전달, uploadend.html로 리다이렉트.
+- application.properties에 spring.servlet.multipart.location=upload 설정.
+
+---

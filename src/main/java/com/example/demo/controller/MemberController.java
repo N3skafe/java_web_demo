@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +30,16 @@ public class MemberController {
     MemberService memberService; // MemberService 클래스 아래 객체 생성
 
     @GetMapping("/join_new") // 회원 가입 페이지 연결
-    public String join_new() {
+    public String join_new(Model model) {
+        model.addAttribute("addMemberRequest", new AddMemberRequest());
         return "join_new"; // .HTML 연결
     }
     @PostMapping("/api/members") // 회원 가입 저장
-    public String addmembers(@Valid @ModelAttribute AddMemberRequest request) {
+    public String addmembers(@Valid @ModelAttribute AddMemberRequest request, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("addMemberRequest", request);
+            return "join_new";
+        }
         memberService.saveMember(request);
         return "join_end"; // .HTML 연결
     }
