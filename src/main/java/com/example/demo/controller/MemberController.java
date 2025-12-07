@@ -1,7 +1,5 @@
 package com.example.demo.controller;
-
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,11 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.example.demo.model.domain.Member;
 import com.example.demo.model.service.AddMemberRequest;
 import com.example.demo.model.service.MemberService;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,7 +46,7 @@ public class MemberController {
     @PostMapping("/api/login_check") // 로그인(아이디, 패스워드) 체크
     public String checkMembers(@ModelAttribute AddMemberRequest request, Model model, HttpServletRequest request2, HttpServletResponse response) {
          try {
-            HttpSession session = request2.getSession(false); // 기존 세션 가져오기(존재하지 않으면 null 반환)
+            HttpSession session = request2.getSession(true); // 기존 세션 가져오기(존재하지 않으면 null 반환)
             if (session != null) {
                 session.invalidate(); // 기존 세션 무효화
                 Cookie cookie = new Cookie("JSESSIONID", null); // JSESSIONID 초기화
@@ -81,15 +77,24 @@ public class MemberController {
     public String member_logout(Model model, HttpServletRequest request2, HttpServletResponse response) {
         try {
             HttpSession session = request2.getSession(false); // 기존세션가져오기(존재하지않으면null 반환)
-                session.invalidate(); // 기존세션무효화
-                Cookie cookie= new Cookie("JSESSIONID", null); // 기본이름은JSESSIONID
-                cookie.setPath("/"); // 쿠키의경로
-                cookie.setMaxAge(0); // 쿠키만료0이면삭제
-                response.addCookie(cookie); // 응답에쿠키설정
-                session = request2.getSession(true); // 새로운세션생성
-                System.out.println("세션userId: " + session.getAttribute("userId" )); // 초기화후IDE 터미널에세션값출력
+            if (session != null) {
+                session.invalidate();
+            }
+            Cookie[] cookies = request2.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie: cookies){
+                    if ("JSESSIONID".equals(cookie.getName())) {
+                        cookie.setValue(null); // 쿠키값초기화
+                        cookie.setMaxAge(0); // 쿠키만료0이면삭제
+                        cookie.setPath("/"); // 쿠키의경로
+                        response.addCookie(cookie); // 응답에쿠키설정
+                        session =request2.getSession(true); // 새로운세션생성
+                    }
+                }
+            }
             return "login"; // 로그인페이지로리다이렉트   
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage()); // 에러메시지전달
         return "login"; // 로그인실패시로그인페이지로리다이렉트
         }

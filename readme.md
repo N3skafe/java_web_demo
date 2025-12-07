@@ -145,7 +145,7 @@ public String session_expried() {
 ![upload에 저장된 파일과 txt 내용](/src/main/resources/static/img/savetest.png)  
 
 • 지도 학교 위치로 설정하기(google map)  
-
+!['index.html'화면 지도 내용](/src/main/resources/static/img/maptest.png)  
 
 
 ---
@@ -490,6 +490,66 @@ public String updataBoard(@PathVariable Long id, @ModelAttribute AddArticleReque
 ![같은계정 글](/src/main/resources/static/img/qqqtest.png)  
 
 ![다른계정 글](/src/main/resources/static/img/jintest.png)
+
+---
+### **14주차:  세션 처리, 파일 업로드(完了)**
+- 세션처리: 2명 이상 로그인 되도록 코드 수정  
+- 로그인 사용자마다 다른 이름 세션을 생성, 로그아웃시 현재 사용자의 세션과 쿠키만 삭제  
+
+*2개 세션 로그인시*  
+![2개 세션 로그인](/src/main/resources/static/img/img1test.png)  
+
+
+*한개의 세션에서 로그아웃 시*  
+![한쪽에서 로그아웃](/src/main/resources/static/img/img2test.png)  
+
+*로그아웃 코드 구현*  
+```java
+if (session != null) {
+    session.invalidate();
+}
+Cookie[] cookies = request2.getCookies();
+if (cookies != null) {
+    for (Cookie cookie: cookies){
+        if ("JSESSIONID".equals(cookie.getName())) {
+            cookie.setValue(null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/"); 
+            response.addCookie(cookie);
+            session =request2.getSession(true);
+        }
+    }
+}
+```
+
+- 동일 파일 업로드 시 다른 이름으로 생성하여 중복 방지  
+```java
+int count = 1;
+while (Files.exists(filePath)) {
+    filePath = uploadPath.resolve(sanitizedEmail + "(" + count + ").txt");
+    count++;
+}
+```
+*if 구문을 사용하였을 시 (1) 이후로는 생성되지 않아서 while 문을 사용하여 구현  
+*동작확인을 위한 로컬 저장소 확인*  
+![파일명과 내용에서 qqq.com 뒤로 붙는 숫자를 보면 이해가 편합니다](/src/main/resources/static/img/myfitest.png)  
+
+- 파일 업로드 에러 페이지 처리  
+- 'page_error.html'생성  
+- 기존 'article_error.html'을 재활용하여 내용만 수정해서 사용  
+- 'FileController.java'의 IOExcption return 경로 수정 및 추가 오류 발생점 추가  
+```java
+if (subject == null || subject.trim().isEmpty()) {
+    redirectAttributes.addFlashAttribute("message", "제목을 입력해주세요.");
+return "/error_page/page_error";
+}
+if (message == null || message.trim().isEmpty()) {
+    redirectAttributes.addFlashAttribute("message", "메시지를 입력해주세요.");
+return "/error_page/page_error";
+}
+```
+![공란 입력시 'page_error.html'로 리다이렉트](/src/main/resources/static/img/paertest.png)  
+
 
 ---
 ## **수업 내용 정리**
