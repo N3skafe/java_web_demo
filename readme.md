@@ -130,6 +130,7 @@ public String session_expried() {
 }
 ```
 ![세션 만료시 되돌아가기](/src/main/resources/static/img/ssexp.png)  
+*세션 만료시 되돌아가기*  
 • '홈으로돌아가기'를 통해 본 페이지로 이동  
 
 ---
@@ -143,9 +144,11 @@ public String session_expried() {
   
 *동작 확인*  
 ![upload에 저장된 파일과 txt 내용](/src/main/resources/static/img/savetest.png)  
+*upload에 저장된 파일과 txt 내용*  
 
 • 지도 학교 위치로 설정하기(google map)  
 !['index.html'화면 지도 내용](/src/main/resources/static/img/maptest.png)  
+*'index.html'화면 지도 내용*  
 
 
 ---
@@ -187,6 +190,7 @@ function confirmClose() {
 • 동작 확인
 
 ![confirmClose()](/src/main/resources/static/img/yesorno.png "confirmClose()")
+*confirmClose()*  
 
 ---
 ### **4주차: 사용자 추가 및 출력하기 (完了)**
@@ -231,6 +235,7 @@ System.out.println("데이터 출력 디버그 : " + test3);
 
 • MySQL 테이블 예시
 ![사용자 추가](/src/main/resources/static/img/fstdb.png)
+*사용자 추가*  
 
 ---
 ### **5주차: 페이지 리다이렉트 (完了)**
@@ -270,6 +275,8 @@ public class BlogErrorHandler {
 
 • 에러 페이지 동작 예시
 ![에러 페이지 동작 예시](/src/main/resources/static/img/error1.png)
+*에러 페이지 동작 예시*  
+
 
 ---
 ### **10주차:  새로운 게시판 페이지 만들기(完了)**
@@ -451,6 +458,7 @@ public String addmembers(@Valid @ModelAttribute AddMemberRequest request, Bindin
 ```
 - 동작 확인
 ![비밀번호, 나이 오류](/src/main/resources/static/img/join_error_test.png)
+*비밀번호, 나이 오류*  
 
 ---
 ### **13주차:  게시판 수정하기(完了)**
@@ -467,6 +475,7 @@ public String addboards(@ModelAttribute AddArticleRequest request, HttpSession s
 }
 ```
 ![기존 GUEST 아래 이메일로 저장된 모습](/src/main/resources/static/img/bidtest.png)
+*기존 GUEST 아래 이메일로 저장된 모습*  
 
 
 - 게시글 내용 보기에서 글의 작성자만 수정/삭제 버튼을 보여준다  
@@ -488,8 +497,10 @@ public String updataBoard(@PathVariable Long id, @ModelAttribute AddArticleReque
 *qwer1234@qqq.com으로 로그인 되었을때 시연 사진*  
 
 ![같은계정 글](/src/main/resources/static/img/qqqtest.png)  
+*같은계정 글*  
 
 ![다른계정 글](/src/main/resources/static/img/jintest.png)
+*다른계정 글*  
 
 ---
 ### **14주차:  세션 처리, 파일 업로드(完了)**
@@ -498,10 +509,12 @@ public String updataBoard(@PathVariable Long id, @ModelAttribute AddArticleReque
 
 *2개 세션 로그인시*  
 ![2개 세션 로그인](/src/main/resources/static/img/img1test.png)  
-
+*2개 세션 로그인*  
 
 *한개의 세션에서 로그아웃 시*  
 ![한쪽에서 로그아웃](/src/main/resources/static/img/img2test.png)  
+*한쪽에서 로그아웃*  
+
 
 *로그아웃 코드 구현*  
 ```java
@@ -533,6 +546,7 @@ while (Files.exists(filePath)) {
 *if 구문을 사용하였을 시 (1) 이후로는 생성되지 않아서 while 문을 사용하여 구현  
 *동작확인을 위한 로컬 저장소 확인*  
 ![파일명과 내용에서 qqq.com 뒤로 붙는 숫자를 보면 이해가 편합니다](/src/main/resources/static/img/myfitest.png)  
+*파일명과 내용에서 qqq.com 뒤로 붙는 숫자를 보면 이해가 편합니다*  
 
 - 파일 업로드 에러 페이지 처리  
 - 'page_error.html'생성  
@@ -549,6 +563,7 @@ return "/error_page/page_error";
 }
 ```
 ![공란 입력시 'page_error.html'로 리다이렉트](/src/main/resources/static/img/paertest.png)  
+*공란 입력시 'page_error.html'로 리다이렉트*  
 
 
 ---
