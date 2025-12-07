@@ -150,6 +150,11 @@ public String session_expried() {
 !['index.html'화면 지도 내용](/src/main/resources/static/img/maptest.png)  
 *'index.html'화면 지도 내용*  
 
+- 'index.html'의 제공 서비스 부분 연락하기 버튼을 연락폼으로 이동  
+```html
+<a class="btn btn-primary py-3 px-5" href="#contact">연락하기</a>
+```
+- 포트폴리오 'index.html' 편집 완료  
 
 ---
 ## 연습 문제 (모든 문제 풀이 완료)
